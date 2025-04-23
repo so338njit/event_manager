@@ -210,6 +210,23 @@ async def manager_user(db_session: AsyncSession):
     await db_session.commit()
     return user
 
+@pytest.fixture
+async def user_token(verified_user):
+    return create_access_token(
+        data={"sub": str(verified_user.id), "role": UserRole.AUTHENTICATED.value}
+    )
+
+@pytest.fixture
+async def admin_token(admin_user):
+    return create_access_token(
+        data={"sub": str(admin_user.id), "role": UserRole.ADMIN.value}
+    )
+
+@pytest.fixture
+async def manager_token(manager_user):
+    return create_access_token(
+        data={"sub": str(manager_user.id), "role": UserRole.MANAGER.value}
+    )
 
 # Fixtures for common test data
 @pytest.fixture
