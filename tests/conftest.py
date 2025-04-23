@@ -278,6 +278,7 @@ def user_response_data():
         "links": []
     }
 
+
 @pytest.fixture
 def login_request_data():
     return {"username": "john_doe_123", "password": "SecurePassword123!"}
