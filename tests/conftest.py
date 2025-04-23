@@ -259,6 +259,8 @@ def user_create_data(user_base_data):
 def user_update_data():
     return {
         "email": "john.doe.new@example.com",
+        "first_name": "John",
+        "last_name": "Doe",
         "full_name": "John H. Doe",
         "bio": "I specialize in backend development with Python and Node.js.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe_updated.jpg"
@@ -275,6 +277,7 @@ def user_response_data():
         "updated_at": datetime.now(),
         "links": []
     }
+
 
 @pytest.fixture
 def login_request_data():
