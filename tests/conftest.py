@@ -233,9 +233,10 @@ async def manager_token(manager_user):
 def user_base_data():
     return {
         "username": "john_doe_123",
-        "nickname": "johndoe",
-        "email": "john.doe@example.com",
-        "full_name": "John Doe",
+        "nickname": "johndoe",  # Add this required field
+        "email": "john.doe@example.com",  # Fix email format
+        "first_name": "John",  # Use these instead of full_name
+        "last_name": "Doe",    # Use these instead of full_name
         "bio": "I am a software engineer with over 5 years of experience.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe.jpg"
     }
@@ -244,12 +245,13 @@ def user_base_data():
 def user_base_data_invalid():
     return {
         "username": "john_doe_123",
-        "email": "john.doe.example.com",
-        "full_name": "John Doe",
+        "nickname": "johndoe",
+        "email": "john.doe.example.com",  # Invalid email format (missing @)
+        "first_name": "John",
+        "last_name": "Doe",
         "bio": "I am a software engineer with over 5 years of experience.",
         "profile_picture_url": "https://example.com/profile_pictures/john_doe.jpg"
     }
-
 
 @pytest.fixture
 def user_create_data(user_base_data):
