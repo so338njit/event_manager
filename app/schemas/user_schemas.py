@@ -57,11 +57,32 @@ class UserBase(BaseModel):
 
 class UserCreate(UserBase):
     email: EmailStr = Field(..., example="john.doe@example.com")
-    password: str = Field(..., example="Secure*1234")
+    password: str = Field(..., min_length=8, example="Secure*1234")
     nickname: str = Field(..., min_length=3, max_length=20, pattern=r'^[\w-]+$', example=generate_nickname())
 
     class Config:
         extra = Extra.forbid
+
+class RegisterUser(BaseModel):
+    email:    EmailStr      = Field(..., example="you@example.com")
+    password: str           = Field(..., min_length=8, example="Secure*1234")
+    nickname: Optional[str] = Field(None, min_length=3, max_length=20, pattern=r'^[\w-]+$')
+
+    @validator("password")
+    def require_complexity(cls, pw: str) -> str:
+        # at least one uppercase
+        if not re.search(r"[A-Z]", pw):
+            raise ValueError("must include at least one uppercase letter")
+        # at least one lowercase
+        if not re.search(r"[a-z]", pw):
+            raise ValueError("must include at least one lowercase letter")
+        # at least one digit
+        if not re.search(r"\d", pw):
+            raise ValueError("must include at least one digit")
+        # at least one special character
+        if not re.search(r"[!@#$%^&*(),.?\":{}|<>]", pw):
+            raise ValueError("must include at least one special character")
+        return pw    
 
 class UserUpdate(UserBase):
     email: Optional[EmailStr] = Field(None, example="john.doe@example.com")

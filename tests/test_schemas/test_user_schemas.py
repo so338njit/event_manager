@@ -3,7 +3,7 @@ import pytest
 from pydantic import ValidationError
 from datetime import datetime
 import uuid
-from app.schemas.user_schemas import UserBase, UserCreate, UserUpdate, UserResponse, UserListResponse, LoginRequest
+from app.schemas.user_schemas import UserBase, UserCreate, UserUpdate, UserResponse, UserListResponse, LoginRequest, RegisterUser
 
 # Tests for UserBase
 def test_user_base_valid(user_base_data):
@@ -110,4 +110,28 @@ def test_user_update_empty_values():
     with pytest.raises(ValidationError) as exc_info:
         UserUpdate(**empty_update)
     assert "At least one field must be provided for update" in str(exc_info.value)
-    
+
+@pytest.mark.parametrize("password, expected_msg", [
+    ("Short1!",              "String should have at least 8 characters"),
+    ("nouppercase1!",        "must include at least one uppercase letter"),
+    ("NOLOWERCASE1!",        "must include at least one lowercase letter"),
+    ("NoNumberHere!",        "must include at least one digit"),
+    ("NoSpecial123",         "must include at least one special character"),
+])
+def test_register_password_complexity(password, expected_msg):
+    """
+    RegisterUser should reject passwords that:
+      - are too short,
+      - lack uppercase,
+      - lack lowercase,
+      - lack digits,
+      - lack special characters.
+    """
+    with pytest.raises(ValidationError) as exc:
+        RegisterUser(
+            email="test@example.com",
+            password=password,
+            nickname="validnick"
+        )
+    # Pydantic’s ValidationError message should mention our rule
+    assert expected_msg in str(exc.value)
