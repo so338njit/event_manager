@@ -18,3 +18,5 @@ This issue was quite involved. Solved issues relating to username validation. ad
 [Upgraded passwork requirements Issue](https://github.com/so338njit/event_manager/pull/14/commits/609835ec1569f6a00dfe3deeb9b97b3cec563316)
 This issue was also quite involved. I updated the user_schemas file to require a minimum length, upper case, lower case, and a special character. This had to be done by creating a Register_user class and raise valueerror if the password didnt meet the requirements. After this was complete, the securite.py file had to be updated to the latest hashing standards. Using passlib import with the combinatination of bcrypt allowed for the latest hashing tech also with the ability to update the hashing algorithims in the future without affecting the code.
 
+![Screenshot 2025-04-24 at 2 49 06 PM](https://github.com/user-attachments/assets/883c6ed4-2a99-453a-acf6-f48e1d456e34)
+![Screenshot 2025-04-24 at 2 11 17 PM](https://github.com/user-attachments/assets/68efd71f-b486-42a0-9af0-99605f8df896)
